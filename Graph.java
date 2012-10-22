@@ -9,7 +9,13 @@ public class Graph {
 
 	private ArrayList<Node> mNodes = new ArrayList<Node>();
 
+	private ArrayList<Integer> mProcessedNodes = new ArrayList<Integer>();
+
+	private ArrayList<Integer> mUnprocessedNodes = new ArrayList<Integer>();
+
 	private double[] mDistanceArray;
+
+	private int[] mMadeMeSmaller;
 
 	private boolean[] mVisited;
 
@@ -26,9 +32,11 @@ public class Graph {
 		int len = mNodes.size();
 		mDistanceArray = new double[len];
 		mVisited = new boolean[len];
+		mMadeMeSmaller = new int[len];
 		for(int k = 0; k < len; k++) {
 			mDistanceArray[k] = BIG_NUM;
 			mVisited[k] = false;
+			mMadeMeSmaller[k] = -1;
 		}
 	}
 	
@@ -40,7 +48,14 @@ public class Graph {
 		addConnectionCoord(0,1,0,2);
 		addConnectionCoord(0,2,0,3);
 		addConnectionCoord(0,3,3,3);
-		addConnectionCoord(0,0,3,3);
+
+		addConnectionCoord(0,0,1,0);
+		addConnectionCoord(1,0,2,0);
+		addConnectionCoord(2,0,3,0);
+		addConnectionCoord(3,0,2,2);
+		addConnectionCoord(2,2,3,3);
+
+		addConnectionCoord(0,0,2,2);
 	}
 	
 	public int getIndexFromCoord(int x,int y) {
@@ -58,6 +73,7 @@ public class Graph {
 		int a = getIndexFromCoord(ax,ay);
 		int b = getIndexFromCoord(bx,by);
 		mNodes.get(a).addConnection(b);
+		mNodes.get(b).addConnection(a);
 	}
 
 	/*
@@ -123,8 +139,10 @@ public class Graph {
 		}
 	}
 
-	public void findShortestPath() {
+	public void findShortestPath(int targetX, int targetY) {
+		int targetIndex = getIndexFromCoord(targetX, targetY);
 		mDistanceArray[0] = 0.0;
+		mUnprocessedNodes.add(0);
 		calculateDistances(0);
 		for(int j = 0; j < mDistanceArray.length; j++) {
 			double distance = mDistanceArray[j];
@@ -133,44 +151,80 @@ public class Graph {
 				", " + mNodes.get(j).getY()  + ") : " + mDistanceArray[j]);
 			}	
 		}
+		System.out.println("***Calculating Shortest Route***");
+		printShortestRoute(targetIndex);
 	}
 
-	private void calculateDistances(int currentNodeIndex) {
-		double shortestDistance = 999999.0;
-		int shortestConnectionIndex = -1;
-		double currentDistance = mDistanceArray[currentNodeIndex];
-		int[] connections = mNodes.get(currentNodeIndex).getConnectionsAsArray();
-		System.out.println("connections for " + getXY(currentNodeIndex));
-		for(int p = 0; p < connections.length; p++) {
-			System.out.println("connection: " + p + " = " + getXY(connections[p])); 
+	private void printShortestRoute(int targetIndex) {
+		int madeMeSmallerIndex = mMadeMeSmaller[targetIndex];
+		if(madeMeSmallerIndex>-1) {
+			System.out.println("I'm index " + getXY(targetIndex) + " and " + getXY(madeMeSmallerIndex) + " made me smaller");
+			printShortestRoute(madeMeSmallerIndex);
 		}
+	}
+
+	private void dumpIntList(ArrayList<Integer> intList) {
+		for(int i = 0; i < intList.size(); i++) {
+			System.out.println("int list contains " + getXY(intList.get(i)));
+		}
+	}
+
+	// this needs to be cleaned up big time, though it does appear to work
+	private void calculateDistances(int currentNodeIndex) {
+		while(mUnprocessedNodes.size() > 0) {
+			int smallestDistanceIndex = getSmallestDistanceIndex();
+			System.out.println("smallest distance node: " + getXY(smallestDistanceIndex));
+			mProcessedNodes.add(smallestDistanceIndex);
+			for(int k = 0; k < mUnprocessedNodes.size(); k++) {
+				if(mUnprocessedNodes.get(k)==smallestDistanceIndex) {
+					mUnprocessedNodes.remove(k);
+				}
+			}
+			refreshSmallestDistances(smallestDistanceIndex);
+			dumpIntList(mUnprocessedNodes);
+		}
+	}
+
+	private void refreshSmallestDistances(int nodeIndex) {
+		int[] connections = mNodes.get(nodeIndex).getConnectionsAsArray();
 		for(int i = 0; i < connections.length; i++) {
 			int connectionIndex = connections[i];
-			if(mVisited[connectionIndex] == false) {
-				System.out.println("we have not visited " + getXY(connectionIndex));
-				double distance = getDistanceBetween(currentNodeIndex, connectionIndex);
-				System.out.println("distance: " + distance + " and existing distance is " + mDistanceArray[connectionIndex]);
-				double newDist = distance + currentDistance;
+			if(!mProcessedNodes.contains(connectionIndex)) {
+				double distance = getDistanceBetween(nodeIndex, connectionIndex);
+				System.out.println("refreshing "+getXY(nodeIndex)+" distance: " + distance + " and existing distance is " + mDistanceArray[connectionIndex]);
+				double newDist = distance + mDistanceArray[nodeIndex];
 				if(mDistanceArray[connectionIndex] > newDist) {
-					mDistanceArray[connectionIndex] = newDist;	
-					if(distance < shortestDistance) {
-						shortestConnectionIndex = connectionIndex;
-						shortestDistance = distance;
-					}
-				} else {
-					//System.out.println("");
+					mDistanceArray[connectionIndex] = newDist;
+					mMadeMeSmaller[connectionIndex] = nodeIndex;
+					mUnprocessedNodes.add(connectionIndex);
 				}
 			}
 		}
-		mVisited[currentNodeIndex] = true;
-		if(shortestConnectionIndex > -1) {
-			calculateDistances(shortestConnectionIndex);
+	}
+
+	private int getSmallestDistanceIndex() {
+		int smallestIndex = -1;
+		double smallestDistance = 999999.0;
+		for(int i = 0; i < mUnprocessedNodes.size(); i++) {
+			int nodeIndex = mUnprocessedNodes.get(i);
+			System.out.println("node index: " + nodeIndex + " has distance: " + mDistanceArray[nodeIndex]);
+			if(smallestDistance > mDistanceArray[nodeIndex]) {
+				smallestDistance = mDistanceArray[nodeIndex];
+				smallestIndex = nodeIndex;
+			}
+		}
+		return smallestIndex;
+	}
+
+	private void dumpOutBoolArray(boolean[] arr) {
+		for(int i = 0; i < arr.length; i++) {
+			System.out.println(getXY(i) + " has value: " + arr[i]);
 		}
 	}
 
-	private void dumpOutArray(boolean[] arr) {
-		for(int i = 0; i < arr.length; i++) {
-			System.out.println(getXY(i) + " has value: " + arr[i]);
+	private void dumpOutIntArray(int[] arr) {
+		for(int p = 0; p < arr.length; p++) {
+			System.out.println("connection: " + p + " = " + getXY(arr[p])); 
 		}
 	}
 

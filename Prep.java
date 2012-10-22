@@ -79,7 +79,7 @@ public class Prep {
 			// find quickest path to this target
 			myG.printStartingBoard();
 			// print out the route and tell me the distance it would take
-			myG.findShortestPath();
+			myG.findShortestPath(3, 3);
 			//myG.printLongestPath();
 			//myG.printFastestPath();
 			// bonus, find paths that hit X,Y node (or any number of nodes) on the way
