@@ -45,7 +45,7 @@ You should leave the behavior of calling <code>current()</code> before either <c
 
 # Iterable Interface #
 ## Summary ##
-If an object implements the Iterator interface, then the object will provide a generic way to obtain an iterator from it. The Iterable interface enables code that only needs to iterate over the contents of a data structure to treat all those that implement it in the same way, irrespective of the underlying implementation.
+If an object implements the Iterator interface, then the object will provide a generic way to obtain an Iterator from it. The Iterable interface enables code that only needs to iterate over the contents of a data structure to treat all those that implement it in the same way, irrespective of the underlying implementation.
 
 ## Interface ##
 	public interface Iterable

@@ -1,9 +1,10 @@
 /**
  * Iterator.java
  * 
- * @version: 1.0
- * Purpose:  Interface for Iterators to use.
- * Usage:    Have Iterator classes implement the interface.
+ * @version    1.0
+ *
+ * Purpose     Interface for Iterators to use.
+ * Usage       Have Iterator classes implement the interface.
  *
  * Taken from Beginning Algorithms by Harris and Ross
  *********************************************************/

@@ -1,10 +1,10 @@
 /**
  * ArrayIterator.java
  * 
- * @version: 1.0
- * Purpose:  Class used to iterate over an array of Objects with a layer of abstraction.
- * Usage:    Construct an iterator with an array as a parameter
- *           and call functions as needed to traverse it.
+ * @version    1.0
+ * Purpose     Class used to iterate over an array of Objects with a layer of abstraction.
+ * Usage:      Construct an iterator with an array as a parameter
+ *             and call functions as needed to traverse it.
  *
  * Taken from Beginning Algorithms by Harris and Ross
  *********************************************************/
