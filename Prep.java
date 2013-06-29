@@ -10,11 +10,35 @@ public class Prep {
 
 	private static int sTotalNum = 1000;
 
+	public static void print(String text) {
+		System.out.println(text);
+	}
+
 	public static void main(String [] args) {
 		if(args.length >= sMinArgs) {
 			
 			Stopwatch myWatch = new Stopwatch();	
-		
+			
+			StringMan sm = new StringMan();
+			String subject = "joseph_harding";
+			String output = sm.reverseString(subject);
+			print("reversed: " + output);
+			String scrambled = sm.scramble(subject);
+			print("scrambled: " + scrambled);
+
+			/*
+			InHash firstToLast = new InHash();
+			firstToLast.add("j", "harding");
+			firstToLast.add("c", "bloss");
+			firstToLast.add("e", "fletcher");
+			firstToLast.add("c", "less");
+			
+			String getVal0 = firstToLast.get('e');
+			String getVal1 = firstToLast.get('c');
+
+			print("val 0: " + getVal0);
+			print("val 1: " + getVal1);
+			*/
 			/*
 			ArrayList<Integer> sortMe = new ArrayList<Integer>();
 			sortMe = resetList(sortMe, sTotalNum, sMaxNum);
@@ -70,16 +94,16 @@ public class Prep {
 			*/
 
 			//Graph problems - IN PROGRESS, FRAMEWORK COMPLETE, NOW THE HARD PART :)
-			Graph myG = new Graph(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+			//Graph myG = new Graph(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 			// after we create the 10 x 10 grid we set a certain cercentage of the nodes to be active 
 			//myG.seedRandomNodes(.5,Integer.parseInt(args[2]));
-			myG.constructStartingNodes();
+			//myG.constructStartingNodes();
 			// choose one random node from the field (not equal to home, which is 0,0 and is active)						
 			//int targetIndex = myG.pickTarget();
 			// find quickest path to this target
-			myG.printStartingBoard();
+			//myG.printStartingBoard();
 			// print out the route and tell me the distance it would take
-			myG.findShortestPath(3, 3);
+			//myG.findShortestPath(3, 3);
 			//myG.printLongestPath();
 			//myG.printFastestPath();
 			// bonus, find paths that hit X,Y node (or any number of nodes) on the way
