@@ -21,6 +21,9 @@ public class Prep {
 			
 			Stopwatch myWatch = new Stopwatch();	
 
+            GraphTester myTester = new GraphTester();
+
+            /*
             ArrayList<Integer> toSort = new ArrayList<Integer>();
             toSort.add(87);
             toSort.add(12);
@@ -34,6 +37,7 @@ public class Prep {
             MergeSorter mSort = new MergeSorter();
             ArrayList<Integer> result = mSort.doSort(toSort);
             printArray(result);
+            */
 
             // LinkedList question - find the kth element from the tail of the list
 

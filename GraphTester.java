@@ -3,9 +3,9 @@ import java.util.LinkedList;
 
 public class GraphTester {
 
-	public GraphTester() {
-		
-		NewGraph myGraph = new NewGraph(40, 20);
+    public GraphTester() {
+
+        NewGraph myGraph = new NewGraph(40, 20);
 
 		/*
 
@@ -33,39 +33,42 @@ public class GraphTester {
 
 		*/
 
+        myGraph.addNode(0, 0, "San Francisco");
 
-		myGraph.addNode(35, 9, "Chicago");
-		myGraph.addNode(25, 15, "Houston");
-		myGraph.addNode(37, 8, "Austin");
-		myGraph.addNode(20, 10, "New York");
-		myGraph.addNode(35, 0, "Miami");
-		myGraph.addNode(0, 0, "San Francisco");
-		myGraph.addNode(39, 4, "Denver");
-	
-		myGraph.makeConnectionBetween("New York", "Chicago");
-		myGraph.makeConnectionBetween("New York", "Houston");
-		myGraph.makeConnectionBetween("New York", "Miami");	
-		myGraph.makeConnectionBetween("New York", "Denver");
-		myGraph.makeConnectionBetween("Chicago", "Houston");
-		myGraph.makeConnectionBetween("Chicago", "Denver");
-		myGraph.makeConnectionBetween("Houston", "Austin");	
-		myGraph.makeConnectionBetween("Houston", "Miami");	
-		myGraph.makeConnectionBetween("Houston", "San Francisco");
-		myGraph.makeConnectionBetween("Austin", "San Francisco");
-		myGraph.makeConnectionBetween("Denver", "San Francisco");
-		myGraph.printMap();
+        myGraph.addNode(17, 5, "Chicago");
+        myGraph.addNode(30, 1, "Houston");
 
-		DykstraNav dNav = new DykstraNav();
-		LinkedList<NewNode> path = dNav.getShortestPathFromTo(myGraph, "New York", "San Francisco");
-		
-		//LinkedList<NewNode> path = new LinkedList<NewNode>();
-		//path.add(new NewNode(2, 4, "El Paso"));
-		//path.add(new NewNode(6, 7, "Amarillo"));
-		printLinkedList(path);
-	}
+        myGraph.addNode(7, 5, "Austin");
 
-	private void printLinkedList(LinkedList<NewNode> list) {
-		System.out.println("PRINT");
+        myGraph.addNode(18, 18, "Miami");
+        myGraph.addNode(20, 19, "Denver");
+
+        myGraph.addNode(39, 10, "New York");
+
+        myGraph.makeConnectionBetween("New York", "Houston");
+        myGraph.makeConnectionBetween("New York", "Austin");
+        myGraph.makeConnectionBetween("New York", "Denver");
+
+        myGraph.makeConnectionBetween("Houston", "Chicago");
+        myGraph.makeConnectionBetween("Miami", "Denver");
+
+        myGraph.makeConnectionBetween("San Francisco", "Chicago");
+        myGraph.makeConnectionBetween("San Francisco", "Austin");
+        myGraph.makeConnectionBetween("San Francisco", "Miami");
+
+        myGraph.printMap();
+
+        DykstraNav dNav = new DykstraNav();
+        LinkedList<NewNode> path = dNav.getShortestPathFromTo(myGraph, "New York", "San Francisco");
+
+        //LinkedList<NewNode> path = new LinkedList<NewNode>();
+        //path.add(new NewNode(2, 4, "El Paso"));
+        //path.add(new NewNode(6, 7, "Amarillo"));
+        printLinkedList(path);
+    }
+
+    private void printLinkedList(LinkedList<NewNode> list) {
+        System.out.println("PRINT");
 		/*
 		Iterator itr = list.iterator();
       	while(itr.hasNext()) {
@@ -74,9 +77,9 @@ public class GraphTester {
       	}
 		*/
 
-		for(Object obj : list) {
-			System.out.println(obj);
-		}
-	}
+        for(Object obj : list) {
+            System.out.println(obj);
+        }
+    }
 
 }

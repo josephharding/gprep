@@ -16,7 +16,9 @@ public class DykstraNav {
 
 		// pass in the first node and an empty done list
 		ArrayList<NewNode> doneList = new ArrayList<NewNode>();
-		markShortestDistances(graph.getNode(fromName), doneList, graph);
+        NewNode fromNode = graph.getNode(fromName);
+        fromNode.setDistance(0);
+		markShortestDistances(fromNode, doneList, graph);
 
 		// get the destination node, find who marked him shortest, go to him, repeat, output linked list, reverse list
 		DistWrapper totalDistance = new DistWrapper();
@@ -48,18 +50,20 @@ public class DykstraNav {
 	}
 
 	private void markShortestDistances(NewNode currentNode, ArrayList<NewNode> doneList, NewGraph graph) {
-		//System.out.println("NODE " + currentNode.getName());
+		System.out.println("NODE " + currentNode.getName());
 		// for each connection, calculate distance and mark down distance on connection
 		ArrayList<String> connectionNameList = currentNode.getConnectionNames();	
 		for(int i = 0; i < connectionNameList.size(); i++) {
 			NewNode currentConnection = graph.getNode(connectionNameList.get(i));
-			double dist = graph.getDistanceBetween(currentNode.getName(), connectionNameList.get(i));
+			double dist = graph.getDistanceBetween(currentNode.getName(), connectionNameList.get(i)) + currentNode.getDistance();
 			double currentDist = currentConnection.getDistance();
 			if(dist < currentDist) {
-				//System.out.println("found a shorter distance to " + currentConnection.getName() + ": " + dist);
+				System.out.println("found a shorter distance to " + currentConnection.getName() + ": " + dist);
 				currentConnection.setShorterNodeName(currentNode.getName());
 				currentConnection.setDistance(dist);
-			}
+			} else {
+                System.out.println("the new path ("+currentDist+") was not shorter to " + currentConnection.getName() + ": " + dist);
+            }
 		}
 		doneList.add(currentNode);
 		for(int j = 0; j < connectionNameList.size(); j++) {

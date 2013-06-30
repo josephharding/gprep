@@ -38,7 +38,7 @@ public class NewGraph {
 		for(int i = 0; i < mNodes.size(); i++) {
 			if(mNodes.get(i).getName().equals(nameA)) {
 				mNodes.get(i).addConnection(nameB);
-			} else if(mNodes.get(i).getName().equals(nameA)) {
+			} else if(mNodes.get(i).getName().equals(nameB)) {
 				mNodes.get(i).addConnection(nameA);
 			}	
 		}
