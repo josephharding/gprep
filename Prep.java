@@ -1,6 +1,8 @@
+import java.lang.Integer;
 import java.util.Random;
 
 import java.util.ArrayList;
+
 
 public class Prep {
 
@@ -18,14 +20,39 @@ public class Prep {
 		if(args.length >= sMinArgs) {
 			
 			Stopwatch myWatch = new Stopwatch();	
-			
+
+            ArrayList<Integer> toSort = new ArrayList<Integer>();
+            toSort.add(87);
+            toSort.add(12);
+            toSort.add(6);
+            toSort.add(1);
+            toSort.add(88);
+            toSort.add(6);
+            toSort.add(2);
+            toSort.add(5);
+            printArray(toSort);
+            MergeSorter mSort = new MergeSorter();
+            ArrayList<Integer> result = mSort.doSort(toSort);
+            printArray(result);
+
+            // LinkedList question - find the kth element from the tail of the list
+
+            // we could traverse the list and for each element we could record the value in an array, then when
+            // we reach the end we can look back k indicies and we have the value
+
+            // create two pointers to the head of the linkedlist, move the first one ahead k numbers, then increment them both together, when the first
+            // pointer reaches the end, the second pointer is at the kth element
+
+
+
+            /*
 			StringMan sm = new StringMan();
 			String subject = "joseph_harding";
 			String output = sm.reverseString(subject);
 			print("reversed: " + output);
 			String scrambled = sm.scramble(subject);
 			print("scrambled: " + scrambled);
-
+            */
 			/*
 			InHash firstToLast = new InHash();
 			firstToLast.add("j", "harding");
