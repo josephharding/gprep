@@ -6,3 +6,12 @@ You have a set of integers. The function needs to return one inteteger such that
 {0, 3, 2} would return 1
 {1, 2} would return 0
 {2, 4, 6} should return 0, 1, 3, or 5
+
+# Question 2 #
+Given a string, and an array of characters, find the shortest substring that contains every character in the array.
+
+Not sure if the characters in the array are sorted, but it would be nice if they were.
+
+## Examples ##
+String: "catdog" Array:['o', 'a']
+Answer: "atdo"
